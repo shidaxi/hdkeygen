@@ -389,10 +389,16 @@ func main() {
 	fmt.Printf("%-18s %s\n", "BIP32 Root Key:", masterKey.B58Serialize())
 
 	for network, param := range NetworkParamMap {
+
+		coinType := CoinTypeBTCTest
+		if network == "mainnet" {
+			coinType = CoinTypeBTC
+		}
+
 		fmt.Printf("\n%-18s %-34s %-52s\n", network+": Path(BIP44)", "Legacy(P2PKH, compresed)", "WIF(Wallet Import Format)")
 		fmt.Println(strings.Repeat("-", 106))
 		for i := 0; i < *number; i++ {
-			key, err := km.GetKey(PurposeBIP44, CoinTypeBTC, 0, 0, uint32(i))
+			key, err := km.GetKey(PurposeBIP44, coinType, 0, 0, uint32(i))
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -407,7 +413,7 @@ func main() {
 		fmt.Printf("\n%-18s %-34s %s\n", network+": Path(BIP49)", "SegWit(P2WPKH-nested-in-P2SH)", "WIF(Wallet Import Format)")
 		fmt.Println(strings.Repeat("-", 106))
 		for i := 0; i < *number; i++ {
-			key, err := km.GetKey(PurposeBIP49, CoinTypeBTC, 0, 0, uint32(i))
+			key, err := km.GetKey(PurposeBIP49, coinType, 0, 0, uint32(i))
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -422,7 +428,7 @@ func main() {
 		fmt.Printf("\n%-18s %-42s %s\n", network+": Path(BIP84)", "SegWit(P2WPKH, bech32)", "WIF(Wallet Import Format)")
 		fmt.Println(strings.Repeat("-", 114))
 		for i := 0; i < *number; i++ {
-			key, err := km.GetKey(PurposeBIP84, CoinTypeBTC, 0, 0, uint32(i))
+			key, err := km.GetKey(PurposeBIP84, coinType, 0, 0, uint32(i))
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -437,7 +443,7 @@ func main() {
 		fmt.Printf("\n%-18s %-62s %s\n", network+": Path(BIP86)", "Taproot(P2TR, bech32m)", "WIF(Wallet Import Format)")
 		fmt.Println(strings.Repeat("-", 134))
 		for i := 0; i < *number; i++ {
-			key, err := km.GetKey(PurposeBIP86, CoinTypeBTC, 0, 0, uint32(i))
+			key, err := km.GetKey(PurposeBIP86, coinType, 0, 0, uint32(i))
 			if err != nil {
 				log.Fatal(err)
 			}
